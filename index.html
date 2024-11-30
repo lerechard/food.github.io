@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affordable Eats Finder</title>
+    <title>Food Finder</title>
     <style>
         body {
             margin: 0;
@@ -73,22 +73,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Find Budget-Friendly Eats in SLO</h1>
+        <h1>Find Food</h1>
         <form id="preferenceForm">
             <div class="slider-container">
-                <label for="salty">Salty</label>
+                <label for="salty">How Salty?</label>
                 <input type="range" id="salty" name="salty" min="0" max="10">
             </div>
             <div class="slider-container">
-                <label for="sweet">Sweet</label>
+                <label for="sweet">How Sweet?</label>
                 <input type="range" id="sweet" name="sweet" min="0" max="10">
             </div>
             <div class="slider-container">
-                <label for="protein">Protein</label>
+                <label for="protein">How much Protein?</label>
                 <input type="range" id="protein" name="protein" min="0" max="10">
             </div>
             <div class="slider-container">
-                <label for="spicy">Spicy</label>
+                <label for="spicy">How Spicy?</label>
                 <input type="range" id="spicy" name="spicy" min="0" max="10">
             </div>
             <div class="meal-selector">
@@ -152,6 +152,8 @@
             }
         ];
 
+        let lastRecommendation = null;
+
         document.getElementById("recommendButton").addEventListener("click", () => {
             const meal = document.getElementById("meal").value;
             const salty = parseInt(document.getElementById("salty").value, 10);
@@ -170,15 +172,19 @@
                     Math.abs(r.attributes.protein - protein) +
                     Math.abs(r.attributes.spicy - spicy);
 
-                if (bestMatch === null || score < bestScore) {
+                if ((bestMatch === null || score < bestScore) && r.name !== lastRecommendation) {
                     bestMatch = r;
                     bestScore = score;
                 }
             });
 
-            const result = bestMatch
-                ? `We recommend: ${bestMatch.name}`
-                : "We couldn't find a match. Try grabbing some groceries at Smart & Final!";
+            if (!bestMatch) {
+                bestMatch = { name: "Smart & Final" };
+            }
+
+            lastRecommendation = bestMatch.name;
+
+            const result = `We recommend: ${bestMatch.name}`;
             document.getElementById("result").innerText = result;
         });
     </script>
