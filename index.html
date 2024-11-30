@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affordable Eats Finder</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .slider-container {
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0f3460;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1a1a2e;
+        }
+
+        .meal-selector {
+            margin-top: 15px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Budget-Friendly Eats in SLO</h1>
+        <form id="preferenceForm">
+            <div class="slider-container">
+                <label for="salty">Salty</label>
+                <input type="range" id="salty" name="salty" min="0" max="10">
+            </div>
+            <div class="slider-container">
+                <label for="sweet">Sweet</label>
+                <input type="range" id="sweet" name="sweet" min="0" max="10">
+            </div>
+            <div class="slider-container">
+                <label for="protein">Protein</label>
+                <input type="range" id="protein" name="protein" min="0" max="10">
+            </div>
+            <div class="slider-container">
+                <label for="spicy">Spicy</label>
+                <input type="range" id="spicy" name="spicy" min="0" max="10">
+            </div>
+            <div class="meal-selector">
+                <label for="meal">Choose a meal:</label>
+                <select id="meal" name="meal">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+            </div>
+            <button type="button" id="recommendButton">Recommend a Restaurant</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        const restaurants = [
+            {
+                name: "McDonald's",
+                attributes: { salty: 8, sweet: 5, protein: 6, spicy: 3 },
+                meals: ["breakfast", "lunch", "dinner"]
+            },
+            {
+                name: "Taco Bell",
+                attributes: { salty: 7, sweet: 3, protein: 6, spicy: 7 },
+                meals: ["lunch", "dinner"]
+            },
+            {
+                name: "Costco Food Court",
+                attributes: { salty: 6, sweet: 4, protein: 5, spicy: 2 },
+                meals: ["lunch", "dinner"]
+            },
+            {
+                name: "Chick-fil-A",
+                attributes: { salty: 7, sweet: 4, protein: 8, spicy: 5 },
+                meals: ["breakfast", "lunch", "dinner"]
+            },
+            {
+                name: "Cal Poly Campus Dining",
+                attributes: { salty: 5, sweet: 3, protein: 6, spicy: 3 },
+                meals: ["breakfast", "lunch", "dinner"]
+            },
+            {
+                name: "In-N-Out Burger",
+                attributes: { salty: 7, sweet: 2, protein: 7, spicy: 1 },
+                meals: ["lunch", "dinner"]
+            },
+            {
+                name: "Subway",
+                attributes: { salty: 6, sweet: 3, protein: 6, spicy: 2 },
+                meals: ["lunch", "dinner"]
+            },
+            {
+                name: "Chipotle",
+                attributes: { salty: 6, sweet: 3, protein: 8, spicy: 5 },
+                meals: ["lunch", "dinner"]
+            },
+            {
+                name: "Pancho's Burritos",
+                attributes: { salty: 7, sweet: 3, protein: 7, spicy: 6 },
+                meals: ["lunch", "dinner"]
+            }
+        ];
+
+        document.getElementById("recommendButton").addEventListener("click", () => {
+            const meal = document.getElementById("meal").value;
+            const salty = parseInt(document.getElementById("salty").value, 10);
+            const sweet = parseInt(document.getElementById("sweet").value, 10);
+            const protein = parseInt(document.getElementById("protein").value, 10);
+            const spicy = parseInt(document.getElementById("spicy").value, 10);
+
+            const matches = restaurants.filter(r => r.meals.includes(meal));
+            let bestMatch = null;
+            let bestScore = -1;
+
+            matches.forEach(r => {
+                const score =
+                    Math.abs(r.attributes.salty - salty) +
+                    Math.abs(r.attributes.sweet - sweet) +
+                    Math.abs(r.attributes.protein - protein) +
+                    Math.abs(r.attributes.spicy - spicy);
+
+                if (bestMatch === null || score < bestScore) {
+                    bestMatch = r;
+                    bestScore = score;
+                }
+            });
+
+            const result = bestMatch
+                ? `We recommend: ${bestMatch.name}`
+                : "We couldn't find a match. Try grabbing some groceries at Smart & Final!";
+            document.getElementById("result").innerText = result;
+        });
+    </script>
+</body>
+</html>
