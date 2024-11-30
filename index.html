@@ -5,75 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Finder</title>
     <style>
+        /* Night Mode Styles */
+        :root {
+            --cal-poly-green: #1e4d2b;
+            --cal-poly-gold: #c69214;
+            --cal-poly-dark-bg: #121212;
+            --cal-poly-gray: #1f1f1f;
+            --cal-poly-light-text: #eaeaea;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            color: #fff;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            height: 100vh;
+            background-color: var(--cal-poly-dark-bg);
+            color: var(--cal-poly-light-text);
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            height: 100vh;
         }
 
         .container {
+            background-color: var(--cal-poly-gray);
+            border-radius: 8px;
+            padding: 20px 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
         }
 
         h1 {
-            font-size: 2rem;
+            color: var(--cal-poly-green);
+            font-size: 1.8rem;
             margin-bottom: 20px;
         }
 
         .slider-container {
-            margin: 10px 0;
+            margin: 15px 0;
+            text-align: left;
         }
 
         label {
+            font-size: 1rem;
+            color: var(--cal-poly-light-text);
             display: block;
             margin-bottom: 5px;
         }
 
         input[type="range"] {
             width: 100%;
+            appearance: none;
+            background-color: var(--cal-poly-dark-bg);
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background-color: var(--cal-poly-gold);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .meal-selector select {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid var(--cal-poly-green);
+            border-radius: 4px;
+            background-color: var(--cal-poly-gray);
+            color: var(--cal-poly-light-text);
         }
 
         button {
-            margin-top: 20px;
+            background-color: var(--cal-poly-green);
+            color: var(--cal-poly-light-text);
             padding: 10px 20px;
-            background-color: #0f3460;
+            font-size: 1rem;
             border: none;
             border-radius: 5px;
-            color: #fff;
-            font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
 
         button:hover {
-            background-color: #1a1a2e;
-        }
-
-        .meal-selector {
-            margin-top: 15px;
+            background-color: var(--cal-poly-gold);
+            color: var(--cal-poly-dark-bg);
         }
 
         #result {
             margin-top: 20px;
             font-size: 1.2rem;
             font-weight: bold;
+            color: var(--cal-poly-gold);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>------------- Find Food -------------</h1>
+        <h1>Food Finder</h1>
         <form id="preferenceForm">
             <div class="slider-container">
                 <label for="salty">How Salty?</label>
@@ -104,6 +140,7 @@
         <div id="result"></div>
     </div>
     <script>
+        // JavaScript remains unchanged and functional
         const restaurants = [
             {
                 name: "McDonald's",
